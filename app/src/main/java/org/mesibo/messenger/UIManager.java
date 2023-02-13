@@ -73,13 +73,9 @@ public class UIManager {
     }
 
     public static boolean mMesiboLaunched = false;
-    public static void launchMesibo(Context context, int flag, boolean startInBackground, boolean keepRunningOnBackPressed) {
+    public static void launchMesibo(Context context, MesiboUI.MesiboUserListScreenOptions opts) {
         mMesiboLaunched = true;
-        MesiboUI.launch(context, flag, startInBackground, keepRunningOnBackPressed);
-    }
-
-    public static void launchMesiboContacts(Context context, long forwardid, int selectionMode, int flag, Bundle bundle) {
-        MesiboUI.launchContacts(context, forwardid, selectionMode, flag, bundle);
+        MesiboUI.launch(context, opts);
     }
 
     public static void launchUserProfile(Context context, long groupid, String peer) {

@@ -49,6 +49,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.mesibo.contactutils.ContactUtils;
+import com.mesibo.messaging.MesiboUI;
 import com.mesibo.uihelper.MesiboUiHelperConfig;
 
 public class StartUpActivity extends AppCompatActivity {
@@ -113,7 +114,10 @@ public class StartUpActivity extends AppCompatActivity {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         } else {
-            UIManager.launchMesibo(this, 0, mRunInBackground, true);
+            MesiboUI.MesiboUserListScreenOptions opts = new MesiboUI.MesiboUserListScreenOptions();
+            opts.keepRunning = true;
+            opts.startInBackground = mRunInBackground;
+            UIManager.launchMesibo(this, opts);
         }
 
         finish();

@@ -420,7 +420,7 @@ public class ShowProfileFragment extends Fragment implements Mesibo.MessageListe
     public boolean parseGroupMembers(MesiboGroupProfile.Member[] users) {
         if(null == users) return false;
 
-        String phone = SampleAPI.getPhone();
+        String phone = Mesibo.getAddress();
         if(TextUtils.isEmpty(phone))
             return false;
 
@@ -525,7 +525,7 @@ public class ShowProfileFragment extends Fragment implements Mesibo.MessageListe
     @Override
     public void onResume  () {
         super.onResume();
-        if(mUser.groupid > 0){
+        if(mUser.isGroup()){
             boolean isActive = mUser.isActive();
             mExitGroupCard.setVisibility(isActive?VISIBLE:GONE);
             mAddMemebers.setVisibility(isActive?VISIBLE:GONE);
@@ -534,10 +534,11 @@ public class ShowProfileFragment extends Fragment implements Mesibo.MessageListe
             mAddMemebers.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MesiboUI.MesiboUserListScreenOptions opts = new MesiboUI.MesiboUserListScreenOptions();
+                    opts.mode = MODE_EDITGROUP;
+                    opts.groupid = mUser.groupid;
 
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("groupid", mUser.groupid);
-                    UIManager.launchMesiboContacts(getActivity(), 0, MODE_EDITGROUP, 0,bundle);
+                    UIManager.launchMesibo(getActivity(), opts);
                     getActivity().finish();
                 }
             });
@@ -659,7 +660,10 @@ public class ShowProfileFragment extends Fragment implements Mesibo.MessageListe
                                 return;
                             }
 
-                            MesiboUI.launchMessageView(getActivity(), profile);
+                            MesiboUI.MesiboMessageScreenOptions opts = new MesiboUI.MesiboMessageScreenOptions();
+                            opts.profile = profile;
+
+                            MesiboUI.launchMessaging(getActivity(), opts);
                             getActivity().finish();
                             return;
                         }
@@ -700,7 +704,10 @@ public class ShowProfileFragment extends Fragment implements Mesibo.MessageListe
                                     members[0] = mDataList.get(position).getAddress();
                                     mUser.getGroupProfile().addMembers(members , MesiboGroupProfile.MEMBERFLAG_ALL, member.isAdmin()?0:MesiboGroupProfile.ADMINFLAG_ALL);
                                 } else  if( 2 == item) {
-                                    MesiboUI.launchMessageView(getActivity(), profile);
+                                    MesiboUI.MesiboMessageScreenOptions opts = new MesiboUI.MesiboMessageScreenOptions();
+                                    opts.profile = profile;
+                                    MesiboUI.launchMessaging(getActivity(), opts);
+
                                     getActivity().finish();
                                     return;
                                 }

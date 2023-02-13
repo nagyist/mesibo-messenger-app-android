@@ -440,7 +440,7 @@ public class SampleAPI  {
 
         // add lister
         Mesibo.addListener(MesiboListeners.getInstance());
-        MesiboUI.setListener(MesiboListeners.getInstance());
+        MesiboUI.setListener(new UIListener());
         MesiboCall.getInstance().setListener(MesiboListeners.getInstance());
 
         // add file transfer handler
@@ -569,7 +569,7 @@ public class SampleAPI  {
             return;
 
         // TBD, create read session for unread messages in database
-        if(!params.isRealtimeMessage() || Mesibo.MSGSTATUS_OUTBOX == params.getStatus())
+        if(!params.isRealtimeMessage() || params.isInOutbox() || params.isOutgoing())
             return;
 
         //MUST not happen for realtime message

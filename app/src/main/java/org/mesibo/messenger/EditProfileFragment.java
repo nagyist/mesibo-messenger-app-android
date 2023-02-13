@@ -78,6 +78,7 @@ import com.mesibo.emojiview.EmojiconGridView;
 import com.mesibo.emojiview.EmojiconsPopup;
 import com.mesibo.emojiview.emoji.Emojicon;
 import com.mesibo.mediapicker.MediaPicker;
+import com.mesibo.messaging.MesiboUI;
 import com.mesibo.messaging.RoundImageDrawable;
 
 import org.mesibo.messenger.Utils.AppUtils;
@@ -218,7 +219,9 @@ public class EditProfileFragment extends Fragment implements MediaPicker.ImageEd
 			profile.save();
 		}
 		if(mLaunchMesibo) {
-			UIManager.launchMesibo(getActivity(), 0, false, true);
+                    MesiboUI.MesiboUserListScreenOptions opts = new MesiboUI.MesiboUserListScreenOptions();
+                    opts.keepRunning = true;
+                    UIManager.launchMesibo(getActivity(), opts);
 		}
 		getActivity().finish();
 	    }

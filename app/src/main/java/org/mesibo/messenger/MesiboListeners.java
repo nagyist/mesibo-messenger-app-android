@@ -73,7 +73,7 @@ import com.mesibo.uihelper.ILoginResultsInterface;
 import java.util.ArrayList;
 import static org.webrtc.ContextUtils.getApplicationContext;
 
-public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterface, IProductTourListener, Mesibo.MessageListener, MesiboUI.Listener, ContactUtils.ContactsListener, Mesibo.MessageFilter, Mesibo.ProfileListener, Mesibo.CrashListener, MesiboRegistrationIntentService.GCMListener, MesiboCall.IncomingListener, Mesibo.GroupListener, Mesibo.AppStateListener, Mesibo.EndToEndEncryptionListener {
+public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterface, IProductTourListener, Mesibo.MessageListener, ContactUtils.ContactsListener, Mesibo.MessageFilter, Mesibo.ProfileListener, Mesibo.CrashListener, MesiboRegistrationIntentService.GCMListener, MesiboCall.IncomingListener, Mesibo.GroupListener, Mesibo.AppStateListener, Mesibo.EndToEndEncryptionListener {
     public static final String TAG = "MesiboListeners";
     public static Context mLoginContext = null;
     private static Gson mGson = new Gson();
@@ -119,7 +119,9 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
                     if (TextUtils.isEmpty(u.getName())) {
                         UIManager.launchEditProfile(mLoginContext, 0, 0, true);
                     } else {
-                        UIManager.launchMesibo(mLoginContext, 0, false, true);
+                        MesiboUI.MesiboUserListScreenOptions opts = new MesiboUI.MesiboUserListScreenOptions();
+                        opts.keepRunning = true;
+                        UIManager.launchMesibo(mLoginContext, opts);
                     }
                 }
 
@@ -243,87 +245,6 @@ public class MesiboListeners implements Mesibo.ConnectionListener, ILoginInterfa
 
             profile.setOverrideName(name);
             return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public void MesiboUI_onShowProfile(Context context, MesiboProfile userProfile) {
-        UIManager.launchUserProfile(context, userProfile.groupid, userProfile.address);
-    }
-
-    @Override
-    public boolean MesiboUI_onShowLocation(Context context, MesiboProfile profile) {
-        return false;
-    }
-
-    @Override
-    public int MesiboUI_onGetMenuResourceId(Context context, int type, MesiboProfile profile, Menu menu) {
-        int id = 0;
-        if (type == 0) { // Setting menu in userlist
-            id = R.menu.messaging_activity_menu;
-            mUserListContext = context;
-        }
-        else {
-            id = R.menu.menu_messaging;
-            mMessageContext = context;
-        }
-
-        ((Activity)context).getMenuInflater().inflate(id, menu);
-
-        if(1 == type && null != profile && profile.isGroup()) {
-            MenuItem menuItem = menu.findItem(R.id.action_call);
-            if(!profile.isActive()) menuItem.setVisible(false);
-            menuItem.setIcon(R.drawable.ic_mesibo_groupcall_audio);
-           // MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
-
-            menuItem = menu.findItem(R.id.action_videocall);
-            menuItem.setIcon(R.drawable.ic_mesibo_groupcall_video);
-            if(!profile.isActive()) menuItem.setVisible(false);
-            //MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public boolean MesiboUI_onMenuItemSelected(Context context, int type, MesiboProfile profile, int item) {
-        if(null == context)
-            return false;
-
-        if (type == 0) { // from userlist
-            if (item == R.id.action_settings) {
-                UIManager.launchUserSettings(context);
-            } else if(item == R.id.action_conf) {
-                MesiboCall.getInstance().groupCallJoinRoomUi(context, "Mesibo Conferencing Demo");
-            } else if(item == R.id.action_calllogs) {
-                MesiboCallUi.getInstance().launchCallLogs(context, 0);
-            } else if(item == R.id.action_menu_e2ee) {
-                MesiboUI.showEndToEndEncryptionInfoForSelf(context);
-            } else if(item == R.id.mesibo_share) {
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, AppConfig.getConfig().invite.subject);
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, AppConfig.getConfig().invite.text);
-                context.startActivity(Intent.createChooser(sharingIntent, AppConfig.getConfig().invite.title));
-            }
-        } 
-	else { // from messaging box
-            if(null == profile) {
-                return false;
-            }
-            if(R.id.action_call == item) {
-                if(!MesiboCall.getInstance().callUi(context, profile, false))
-                    MesiboCall.getInstance().callUiForExistingCall(context);
-            }
-            else if(R.id.action_videocall == item) {
-                if(!MesiboCall.getInstance().callUi(context, profile, true))
-                    MesiboCall.getInstance().callUiForExistingCall(context);
-            }
-            else if(R.id.action_e2e == item) {
-                MesiboUI.showEndToEndEncryptionInfo(context, profile.getAddress(), profile.groupid);
-            }
         }
 
         return false;
