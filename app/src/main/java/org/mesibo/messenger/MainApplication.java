@@ -51,6 +51,7 @@ import com.mesibo.mediapicker.ImagePicker;
 import com.mesibo.mediapicker.MediaPicker;
 import com.mesibo.calls.ui.MesiboCallUi;
 import com.mesibo.messaging.MesiboUI;
+import com.mesibo.messaging.MesiboUiDefaults;
 
 public class MainApplication extends Application implements Mesibo.RestartListener, LifecycleObserver {
     public static final String TAG = "MesiboDemoApplication";
@@ -69,7 +70,7 @@ public class MainApplication extends Application implements Mesibo.RestartListen
         mCallUi = MesiboCallUi.getInstance();
         MesiboCall.getInstance().init(mContext);
 
-        MesiboUI.Config opt = MesiboUI.getConfig();
+        MesiboUiDefaults opt = MesiboUI.getUiDefaults();
         opt.mToolbarColor = 0xff00868b;
         opt.emptyUserListMessage = "No messages! Click on the message icon above to start messaging!";
         MediaPicker.setToolbarColor(opt.mToolbarColor);

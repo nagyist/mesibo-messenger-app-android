@@ -12,8 +12,9 @@ import com.mesibo.calls.api.MesiboCall;
 import com.mesibo.calls.ui.MesiboCallUi;
 import com.mesibo.messaging.MesiboRecycleViewHolder;
 import com.mesibo.messaging.MesiboUI;
+import com.mesibo.messaging.MesiboUIListener;
 
-public class UIListener implements MesiboUI.MesiboUIListener {
+public class UIListener implements MesiboUIListener {
     private static Context mLastUserListContext = null;
     private static Context mLastMessagingContext = null;
     @Override

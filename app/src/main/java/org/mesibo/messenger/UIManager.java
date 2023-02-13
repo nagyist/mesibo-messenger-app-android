@@ -75,7 +75,7 @@ public class UIManager {
     public static boolean mMesiboLaunched = false;
     public static void launchMesibo(Context context, MesiboUI.MesiboUserListScreenOptions opts) {
         mMesiboLaunched = true;
-        MesiboUI.launch(context, opts);
+        MesiboUI.launchUserList(context, opts);
     }
 
     public static void launchUserProfile(Context context, long groupid, String peer) {

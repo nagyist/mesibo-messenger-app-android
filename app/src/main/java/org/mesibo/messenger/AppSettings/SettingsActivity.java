@@ -57,6 +57,7 @@ import com.mesibo.api.Mesibo;
 import org.mesibo.messenger.EditProfileFragment;
 import org.mesibo.messenger.R;
 import com.mesibo.messaging.MesiboUI;
+import com.mesibo.messaging.MesiboUiDefaults;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -69,7 +70,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
 
-        MesiboUI.Config opt = MesiboUI.getConfig();
+        MesiboUiDefaults opt = MesiboUI.getUiDefaults();
 
         setSupportActionBar(toolbar);
         final ActionBar ab = getSupportActionBar();
