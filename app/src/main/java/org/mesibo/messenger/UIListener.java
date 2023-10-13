@@ -52,6 +52,11 @@ public class UIListener implements MesiboUIListener {
         return false;
     }
 
+    @Override
+    public boolean MesiboUI_onClickedRow(MesiboUI.MesiboScreen screen, MesiboUI.MesiboRow row) {
+        return false;
+    }
+
     void userListScreenMenuHandler(Context context, int item) {
         if (item == R.id.action_settings) {
             UIManager.launchUserSettings(context);

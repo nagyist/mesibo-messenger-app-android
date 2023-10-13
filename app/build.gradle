@@ -73,7 +73,6 @@ dependencies {
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     annotationProcessor 'com.jakewharton:butterknife:7.0.1'
     implementation "com.google.code.gson:gson:${project.Mesibo_gsonVersion}"
-    implementation "com.mesibo.api:ContactUtils:${project.MesiboVersion_ContactUtils}"
 
     implementation "com.mesibo.api:uihelper:${project.MesiboVersion_UiHelper}"
     implementation "com.mesibo.api:mesibo:${project.MesiboVersion_Api}"

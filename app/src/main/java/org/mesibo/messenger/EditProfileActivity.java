@@ -56,7 +56,7 @@ import com.mesibo.api.Mesibo;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    Fragment mRequestingFragment;
+    Fragment mFragment = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,13 +70,13 @@ public class EditProfileActivity extends AppCompatActivity {
         long groupid = args.getLong("groupid", 0);
         boolean launchMesibo = args.getBoolean("launchMesibo", false);
 
-        EditProfileFragment registerNewProfileFragment = new EditProfileFragment();
-        registerNewProfileFragment.setGroupId(groupid);
-        registerNewProfileFragment.setLaunchMesibo(launchMesibo);
-        mRequestingFragment = registerNewProfileFragment;
+        EditProfileFragment fragment = new EditProfileFragment();
+        fragment.setGroupId(groupid);
+        fragment.setLaunchMesibo(launchMesibo);
+        mFragment = fragment;
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.register_new_profile_fragment_place, registerNewProfileFragment,"null");
+        ft.replace(R.id.register_new_profile_fragment_place, fragment,"null");
         ft.addToBackStack("registerNewProfileFragment");
         ft.commit();
     }
@@ -129,7 +129,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(mRequestingFragment!=null)
-            mRequestingFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(null != mFragment)
+            mFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
