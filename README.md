@@ -9,7 +9,7 @@ Mesibo Messenger is an open-source app with real-time messaging, voice and video
 - High quality voice and video calling
 - Video and Voice Conferencing
 - Rich messaging (text, picture, video, audio, other files)
-- Encryption 
+- End-to-End Encryption 
 - Location sharing
 - Message status and typing indicators
 - Online status (presence) and real-time profile update
