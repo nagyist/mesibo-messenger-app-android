@@ -27,6 +27,7 @@ package org.mesibo.messenger;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,6 +41,7 @@ import com.google.gson.Gson;
 
 import com.mesibo.api.MesiboGroupProfile;
 import com.mesibo.api.MesiboMessage;
+import com.mesibo.api.MesiboPhoneContact;
 import com.mesibo.api.MesiboProfile;
 import com.mesibo.calls.api.MesiboCall;
 import com.mesibo.calls.ui.MesiboCallUi;
@@ -56,7 +58,7 @@ import com.mesibo.uihelper.MesiboLoginUiHelperResultCallback;
 import java.util.ArrayList;
 import static org.webrtc.ContextUtils.getApplicationContext;
 
-public class MesiboListeners implements Mesibo.ConnectionListener, MesiboLoginUiHelperListener, IProductTourListener, Mesibo.MessageListener, Mesibo.MessageFilter, Mesibo.ProfileListener, Mesibo.CrashListener, MesiboRegistrationIntentService.GCMListener, MesiboCall.IncomingListener, Mesibo.GroupListener, Mesibo.AppStateListener, Mesibo.EndToEndEncryptionListener {
+public class MesiboListeners implements Mesibo.ConnectionListener, MesiboLoginUiHelperListener, IProductTourListener, Mesibo.MessageListener, Mesibo.MessageFilter, Mesibo.ProfileListener, Mesibo.ProfileCustomizationListener, Mesibo.CrashListener, MesiboRegistrationIntentService.GCMListener, MesiboCall.IncomingListener, Mesibo.GroupListener, Mesibo.AppStateListener, Mesibo.EndToEndEncryptionListener {
     public static final String TAG = "MesiboListeners";
     public static Context mLoginContext = null;
     private static Gson mGson = new Gson();
@@ -197,6 +199,23 @@ public class MesiboListeners implements Mesibo.ConnectionListener, MesiboLoginUi
     @Override
     public void Mesibo_onProfileUpdated(MesiboProfile userProfile) {
 
+    }
+
+    @Override
+    public boolean Mesibo_onCustomizeProfile(MesiboProfile profile) {
+        return true;
+    }
+
+    @Override
+    public String Mesibo_onGetProfileName(MesiboProfile profile) {
+        if(profile.isGroup()) return null;
+        MesiboPhoneContact c = Mesibo.getPhoneContactsManager().getPhoneNumberInfo(profile.getAddress(), true);
+        return c.phoneNumber;
+    }
+
+    @Override
+    public Bitmap Mesibo_onGetProfileImage(MesiboProfile profile) {
+        return null;
     }
 
     //Note this is not in UI thread

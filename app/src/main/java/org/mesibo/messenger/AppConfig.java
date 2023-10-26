@@ -32,6 +32,8 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.UUID;
+
 public class AppConfig {
     private static final String TAG = "AppSettings";
     public static final String sharedPrefKey = "org.mesibo.messenger";
@@ -43,6 +45,7 @@ public class AppConfig {
         public SampleAPI.Invite invite = null;
         public String uploadurl = null;
         public String downloadurl = null;
+        public String uniqueid = null;
 
         public void reset() {
             token = "";
@@ -50,6 +53,7 @@ public class AppConfig {
             invite = null;
             uploadurl = "";
             downloadurl = "";
+            // uniqueid - DO NOT RESET
         }
     }
 
@@ -82,8 +86,13 @@ public class AppConfig {
 
         getAppSetting();
 
-        if (firstTime)
+        // https://developer.android.com/training/articles/user-data-ids
+        if(TextUtils.isEmpty(mConfig.uniqueid)) {
+            mConfig.uniqueid = UUID.randomUUID().toString();
             saveSettings();
+        } else if (firstTime) {
+            saveSettings();
+        }
     }
 
     private void backup() {

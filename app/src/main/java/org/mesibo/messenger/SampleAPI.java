@@ -495,8 +495,11 @@ public class SampleAPI  {
             b.put("op", "login");
             b.put("appid", mContext.getPackageName());
             b.put("phone", phoneNumber);
-            if (!TextUtils.isEmpty(verificationCode))
+            if (!TextUtils.isEmpty(verificationCode)) {
                 b.put("otp", verificationCode);
+                if(!TextUtils.isEmpty(AppConfig.getConfig().uniqueid))
+                    b.put("device", AppConfig.getConfig().uniqueid);
+	    }
         } catch (Exception e) {
 
         }
