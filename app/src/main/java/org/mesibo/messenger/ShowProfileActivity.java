@@ -44,6 +44,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 
 import com.mesibo.api.Mesibo;
+import com.mesibo.api.MesiboDateTime;
 import com.mesibo.api.MesiboProfile;
 
 public class ShowProfileActivity extends AppCompatActivity implements ShowProfileFragment.OnFragmentInteractionListener, MesiboProfile.Listener {
@@ -100,27 +101,35 @@ public class ShowProfileActivity extends AppCompatActivity implements ShowProfil
         TextView userstatus = (TextView) findViewById(R.id.up_current_status);
 
         userName.setText(mUserProfile.getName());
-        long lastSeen = mUserProfile.getLastSeen();
+        MesiboDateTime lastSeen = mUserProfile.getLastSeen();
         userstatus.setVisibility(View.VISIBLE);
-        if(0 == lastSeen) {
+        if(mUserProfile.isOnline()) {
             userstatus.setText("Online");
         }
-        else if(lastSeen < 0) {
+        else if(null == lastSeen) {
             // never seen or group
             userstatus.setVisibility(View.GONE);
         }
         else {
             String seenStatus = "";
-            if(lastSeen >= 2*3600*24) {
-                seenStatus = (int)(lastSeen/(3600*24)) + " days ago";
-            } else if(lastSeen >= 24*3600) {
+            int seconds = lastSeen.getSecondsElapsed();
+            int days = lastSeen.getDaysElapsed();
+            if(days >= 13) {
+                seenStatus = "on " + lastSeen.getDate();
+            }
+            else if(days >= 7) {
+                seenStatus = "over a week ago";
+            }
+            else if(days >= 2) {
+                seenStatus = days + " days ago";
+            } else if(days == 1) {
                 seenStatus = "yesterday";
-            } else if(lastSeen >= 2*3600 ){
-                seenStatus = (int)(lastSeen/(3600)) + " hours ago";
-            } else if(lastSeen >= 3600) {
+            } else if(seconds >= 2*3600 ){
+                seenStatus = (int)(seconds/(3600)) + " hours ago";
+            } else if(seconds >= 3600) {
                 seenStatus = "an hour ago";
-            } else if(lastSeen >= 120) {
-                seenStatus = (int)(lastSeen/60) + " minutes ago";
+            } else if(seconds >= 120) {
+                seenStatus = (int)(seconds/60) + " minutes ago";
             } else {
                 seenStatus = "a few moments ago";
             }
