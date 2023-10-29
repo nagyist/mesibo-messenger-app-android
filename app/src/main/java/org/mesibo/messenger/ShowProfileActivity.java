@@ -111,30 +111,8 @@ public class ShowProfileActivity extends AppCompatActivity implements ShowProfil
             userstatus.setVisibility(View.GONE);
         }
         else {
-            String seenStatus = "";
-            int seconds = lastSeen.getSecondsElapsed();
-            int days = lastSeen.getDaysElapsed();
-            if(days >= 13) {
-                seenStatus = "on " + lastSeen.getDate();
-            }
-            else if(days >= 7) {
-                seenStatus = "over a week ago";
-            }
-            else if(days >= 2) {
-                seenStatus = days + " days ago";
-            } else if(days == 1) {
-                seenStatus = "yesterday";
-            } else if(seconds >= 2*3600 ){
-                seenStatus = (int)(seconds/(3600)) + " hours ago";
-            } else if(seconds >= 3600) {
-                seenStatus = "an hour ago";
-            } else if(seconds >= 120) {
-                seenStatus = (int)(seconds/60) + " minutes ago";
-            } else {
-                seenStatus = "a few moments ago";
-            }
-
-            userstatus.setText("Last seen " + seenStatus);
+            String seenStatus = lastSeen.getDateInNaturalLanguage();
+            userstatus.setText("Last seen, " + seenStatus);
         }
 
         CollapsingToolbarLayout collapsingToolbar =
