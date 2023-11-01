@@ -62,14 +62,6 @@ public class UIManager {
         MesiboUI.launchUserList(context, opts);
     }
 
-    public static void launchUserProfile(Context context, long groupid, String peer) {
-        Intent subActivity = new Intent(context, ShowProfileActivity.class);
-        subActivity.
-                putExtra("peer", peer).
-                putExtra("groupid", groupid);
-        context.startActivity(subActivity);
-    }
-
     public static void launchUserSettings(Context context) {
         Intent intent = new Intent(context, SettingsActivity.class);
         context.startActivity(intent);
@@ -88,16 +80,9 @@ public class UIManager {
     public static void launchImageViewer(Activity context, String filePath) {
         MediaPicker.launchImageViewer(context, filePath);
     }
-    public static void launchImageViewer(Activity context, ArrayList<String> files, int firstIndex) {
-        MediaPicker.launchImageViewer(context, files, firstIndex);
-    }
 
     public static void launchImageEditor(Context context, int type, int drawableid, String title, String filePath, boolean showEditControls, boolean showTitle, boolean showCropOverlay, boolean squareCrop, int maxDimension, MediaPicker.ImageEditorListener listener){
         MediaPicker.launchEditor((AppCompatActivity)context, type, drawableid, title, filePath, showEditControls, showTitle, showCropOverlay, squareCrop, maxDimension, listener);
-    }
-
-    public static void launchAlbum(Activity context, List<AlbumListData> albumList) {
-        MediaPicker.launchAlbum(context, albumList);
     }
 
     public static boolean mProductTourShown = false;

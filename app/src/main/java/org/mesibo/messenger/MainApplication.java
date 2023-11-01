@@ -57,6 +57,8 @@ public class MainApplication extends Application implements Mesibo.RestartListen
         MesiboUiDefaults opt = MesiboUI.getUiDefaults();
         opt.mToolbarColor = 0xff00868b;
         opt.emptyUserListMessage = "No messages! Click on the message icon above to start messaging!";
+        opt.showAddressInProfileView = true;
+        opt.showAddressAsPhoneInProfileView = true;
         MediaPicker.setToolbarColor(opt.mToolbarColor);
         ImagePicker.getInstance().setApp(this);
 

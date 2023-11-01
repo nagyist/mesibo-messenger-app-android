@@ -139,16 +139,16 @@ public class UIListener implements MesiboUIListener {
     void initMessageListScreen(MesiboUI.MesiboMessageScreen screen) {
         ((Activity)screen.parent).getMenuInflater().inflate(R.menu.menu_messaging, screen.menu);
 
-        /* different item for group calls */
-        if(null != screen.profile && screen.profile.isGroup()) {
+        // set group call icons
+        if(null != screen.profile) {
             MenuItem menuItem = screen.menu.findItem(R.id.action_call);
-            if(!screen.profile.isActive()) menuItem.setVisible(false);
-            menuItem.setIcon(R.drawable.ic_mesibo_groupcall_audio);
+            if(screen.profile.isGroup() && !screen.profile.isActive()) menuItem.setVisible(false);
+            menuItem.setIcon(screen.profile.isGroup()?MesiboCall.MESIBO_DEFAULTICON_GROUPAUDIOCALL:MesiboCall.MESIBO_DEFAULTICON_AUDIOCALL);
             // MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
 
             menuItem = screen.menu.findItem(R.id.action_videocall);
-            menuItem.setIcon(R.drawable.ic_mesibo_groupcall_video);
-            if(!screen.profile.isActive()) menuItem.setVisible(false);
+            menuItem.setIcon(screen.profile.isGroup()?MesiboCall.MESIBO_DEFAULTICON_GROUPVIDEOCALL:MesiboCall.MESIBO_DEFAULTICON_VIDEOCALL);
+            if(screen.profile.isGroup() && !screen.profile.isActive()) menuItem.setVisible(false);
             //MenuItemCompat.setShowAsAction(menuItem, MenuItemCompat.SHOW_AS_ACTION_NEVER);
         }
 
@@ -167,7 +167,7 @@ public class UIListener implements MesiboUIListener {
         screen.titleArea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UIManager.launchUserProfile(screen.parent, screen.profile.groupid, screen.profile.address);
+                MesiboUI.showBasicProfileInfo(screen.parent, screen.profile);
             }
         });
     }
